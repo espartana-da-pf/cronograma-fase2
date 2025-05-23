@@ -3,429 +3,250 @@
 <head>
   <meta charset="UTF-8">
   <title>Cronograma Fase 2 – Espartana PF</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
+    :root {
+      --bg-light: #f9f9f9;
+      --bg-dark: #22223b;
+      --text-light: #222;
+      --text-dark: #f6f7fa;
+      --table-bg-light: #ffffff;
+      --table-bg-dark: #2a2a40;
+      --shadow-light: 0 0 8px rgba(0, 0, 0, 0.05);
+      --shadow-dark: 0 0 8px rgba(0,0,0,0.3);
+      --primary-light: #1d3557;
+      --primary-dark: #f1faee;
+      --secondary-light: #457b9d;
+      --secondary-dark: #a8dadc;
+      --th-bg-light: #a8dadc;
+      --th-bg-dark: #457b9d;
+      --tr-even-light: #f1faee;
+      --tr-even-dark: #323250;
+      --highlight-light: #ffe066;
+      --highlight-dark: #f9c74f;
+      --highlight-text-light: #222;
+      --highlight-text-dark: #22223b;
+    }
+
     body {
       font-family: Arial, sans-serif;
-      background: #f6f8fa;
-      color: #222;
+      background: var(--bg-light);
+      color: var(--text-light);
       padding: 30px;
-      box-sizing: border-box;
-      margin: 0;
-      transition: background 0.25s, color 0.25s;
+      transition: background 0.2s, color 0.2s;
     }
     h1 {
       text-align: center;
-      color: #1d3557;
+      color: var(--primary-light);
+      transition: color 0.2s;
     }
     h2 {
-      color: #457b9d;
+      color: var(--secondary-light);
       text-align: center;
-    }
-    .container {
-      display: flex;
-      max-width: 1100px;
-      margin: 0 auto;
-      gap: 32px;
-      align-items: flex-start;
-    }
-    @media (max-width: 900px) {
-      .container {
-        flex-direction: column;
-        gap: 0;
-        max-width: 100vw;
-      }
-    }
-    .main-content {
-      flex: 1 1 60%;
-      min-width: 320px;
+      transition: color 0.2s;
     }
     table {
       width: 100%;
       border-collapse: collapse;
       margin: 20px 0;
-      background: #ffffff;
-      transition: background 0.25s;
+      background: var(--table-bg-light);
+      box-shadow: var(--shadow-light);
+      transition: background 0.2s, box-shadow 0.2s;
     }
     th, td {
       border: 1px solid #ddd;
-      padding: 10px;
+      padding: 12px;
       text-align: center;
-      position: relative;
-      transition: background 0.25s, color 0.25s;
+      transition: background 0.2s, color 0.2s;
     }
     th {
-      background-color: #a8dadc;
+      background-color: var(--th-bg-light);
+      transition: background 0.2s;
     }
-    .highlight {
-      background-color: #f1faee;
+    tr:nth-child(even) {
+      background-color: var(--tr-even-light);
+      transition: background 0.2s;
     }
-    /* Amarelo fluorescente para o destaque do dia atual em ambos os modos */
-    .today {
-      background: #fffb00 !important;
-      outline: 3px solid #fffb00 !important;
-      box-shadow: 0 0 20px 4px #fffb00cc !important;
-      color: #222 !important;
+    .obs {
+      font-size: 0.9em;
+      margin-top: 30px;
+      line-height: 1.6;
     }
-    .done-label {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      justify-content: center;
-      font-size: 0.95em;
-    }
-    .note-btn {
-      background: #457b9d;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 2px 7px;
-      cursor: pointer;
-      font-size: 0.85em;
-      margin-left: 8px;
-    }
-    .note-popup {
-      display: none;
-      position: absolute;
-      top: 90%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #fff;
-      border: 1px solid #bbb;
-      padding: 8px;
-      min-width: 180px;
-      z-index: 10;
-      box-shadow: 0 6px 14px #0001;
-      border-radius: 6px;
-    }
-    .note-popup textarea {
-      width: 100%;
-      min-height: 40px;
-      resize: vertical;
-      font-size: 0.95em;
-    }
-    .note-popup button {
-      margin-top: 5px;
-      background: #a8dadc;
-      border: none;
-      cursor: pointer;
-      border-radius: 3px;
-      padding: 3px 8px;
-    }
-    .has-note {
-      background: #ffe66d55;
-    }
-    .sugestoes {
-      flex: 0 1 350px;
-      background: #fff;
-      border: 2px solid #a8dadc;
-      border-radius: 10px;
-      margin-top: 28px;
-      margin-left: 0;
-      padding: 18px 20px 14px 20px;
-      box-shadow: 0 4px 14px #457b9d22;
-      font-size: 1.05em;
-      position: sticky;
-      top: 22px;
-      min-width: 260px;
-      transition: background 0.25s, color 0.25s, border 0.25s;
-    }
-    .sugestoes strong {
-      color: #1d3557;
-      font-size: 1.15em;
-    }
-    .sugestoes ul {
-      margin: 10px 0 0 16px;
-      padding: 0;
-    }
-    .sugestoes li {
-      margin-bottom: 12px;
-      line-height: 1.5;
-    }
-    .dark-toggle {
-      position: absolute;
-      top: 30px;
-      right: 40px;
-      z-index: 99;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-    @media (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
-      .main-content, .sugestoes {
-        padding: 4px;
-      }
-      h1, h2 {
-        font-size: 1.1em;
-      }
-      .dark-toggle {
-        top: 10px;
-        right: 12px;
-      }
-    }
-    .dark-toggle button {
-      background: #444c56;
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
+    .emoji {
       font-size: 1.2em;
+    }
+    /* Botão de modo escuro/claro fixo no topo direito */
+    .toggle-theme-btn {
+      position: fixed;
+      top: 0;
+      right: 0;
+      margin: 20px 28px 0 0;
+      padding: 8px 14px;
+      background: #e0e0e0;
+      color: #222;
+      border: none;
+      border-radius: 22px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.10);
       cursor: pointer;
-      box-shadow: 0 2px 8px #0002;
+      font-size: 1.35em;
       transition: background 0.2s, color 0.2s;
+      z-index: 999;
       display: flex;
       align-items: center;
       justify-content: center;
+      width: 44px;
+      height: 44px;
     }
-    /* ----- MODO ESCURO ----- */
+    .toggle-theme-btn.dark {
+      background: #363663;
+      color: #f6f7fa;
+    }
+    /* Destaque do dia */
+    .today-row {
+      background: var(--highlight-light) !important;
+      color: var(--highlight-text-light) !important;
+      font-weight: bold;
+      transition: background 0.2s, color 0.2s;
+    }
+    body.dark-mode .today-row {
+      background: var(--highlight-dark) !important;
+      color: var(--highlight-text-dark) !important;
+    }
+
+    /* Modo escuro */
     body.dark-mode {
-      background: #0d1117;
-      color: #c9d1d9;
+      background: var(--bg-dark);
+      color: var(--text-dark);
     }
-    body.dark-mode h1, body.dark-mode h2 {
-      color: #79b8ff;
+    body.dark-mode h1 {
+      color: var(--primary-dark);
+    }
+    body.dark-mode h2 {
+      color: var(--secondary-dark);
     }
     body.dark-mode table {
-      background: #161b22;
+      background: var(--table-bg-dark);
+      box-shadow: var(--shadow-dark);
     }
     body.dark-mode th {
-      background: #21262d;
-      color: #c9d1d9;
+      background: var(--th-bg-dark);
+      color: var(--text-dark);
     }
-    body.dark-mode td {
-      color: #c9d1d9;
-      border-color: #30363d;
+    body.dark-mode tr:nth-child(even) {
+      background: var(--tr-even-dark);
     }
-    body.dark-mode .highlight {
-      background: #161b22;
-    }
-    body.dark-mode .today {
-      background: #fffb00 !important;
-      outline: 3px solid #fffb00 !important;
-      box-shadow: 0 0 20px 4px #fffb00cc !important;
-      color: #222 !important;
-    }
-    body.dark-mode .done-label {
-      color: #adbac7;
-    }
-    body.dark-mode .note-btn {
-      background: #238636;
-      color: #fff;
-    }
-    body.dark-mode .note-popup {
-      background: #21262d;
-      color: #adbac7;
-      border: 1px solid #30363d;
-      box-shadow: 0 6px 14px #0005;
-    }
-    body.dark-mode .note-popup textarea {
-      background: #161b22;
-      color: #adbac7;
-      border: 1px solid #30363d;
-    }
-    body.dark-mode .note-popup button {
-      background: #238636;
-      color: #fff;
-    }
-    body.dark-mode .has-note {
-      background: #48370077;
-    }
-    body.dark-mode .sugestoes {
-      background: #161b22;
-      color: #adbac7;
-      border: 2px solid #30363d;
-      box-shadow: 0 4px 14px #0008;
-    }
-    body.dark-mode .sugestoes strong {
-      color: #79b8ff;
+    body.dark-mode .toggle-theme-btn {
+      background: #363663;
+      color: #f6f7fa;
     }
   </style>
 </head>
 <body>
-  <div class="dark-toggle">
-    <button id="toggleDark" title="Alternar modo claro/escuro" aria-label="Modo escuro">
-      🌙
-    </button>
-  </div>
-  <h1>⚔️ Cronograma da Fase 2 – Espartana da PF</h1>
+
+  <button class="toggle-theme-btn" id="theme-toggle" aria-label="Alternar modo claro/escuro">
+    🌙
+  </button>
+
+  <h1 class="emoji">⚔️ Cronograma da Fase 2 – Espartana da PF</h1>
   <h2>Período: 24/05 a 18/06</h2>
-  <div class="container">
-    <div class="main-content">
-      <table id="study-table">
-        <thead>
-          <tr>
-            <th>Dia</th>
-            <th>Manhã (6h às 9h)</th>
-            <th>Tarde (13h30 às 17h)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Segunda</td>
-            <td data-id="seg-manha">Português + Específicas</td>
-            <td data-id="seg-tarde">Lógica + Redação</td>
-          </tr>
-          <tr class="highlight">
-            <td>Terça</td>
-            <td data-id="ter-manha">Específicas + Ética/Admin</td>
-            <td data-id="ter-tarde">Português + Lógica</td>
-          </tr>
-          <tr>
-            <td>Quarta</td>
-            <td data-id="qua-manha">Português + Direito Constitucional</td>
-            <td data-id="qua-tarde">Específicas + Revisão Rápida</td>
-          </tr>
-          <tr class="highlight">
-            <td>Quinta</td>
-            <td data-id="qui-manha">Lógica + Português</td>
-            <td data-id="qui-tarde">—</td>
-          </tr>
-          <tr>
-            <td>Sexta</td>
-            <td data-id="sex-manha">Específicas + Redação (planejamento)</td>
-            <td data-id="sex-tarde">Português + Questões Mistas</td>
-          </tr>
-          <tr class="highlight">
-            <td>Sábado</td>
-            <td colspan="2" data-id="sabado">📝 Simulado Completo + Correção</td>
-          </tr>
-          <tr>
-            <td>Domingo</td>
-            <td colspan="2" data-id="domingo">🧠 Revisão com Flashcards + Redação (opcional)</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <aside class="sugestoes">
-      <strong>💡 Sugestões para Potencializar seu Estudo:</strong>
-      <ul>
-        <li><b>Use a Técnica Pomodoro</b> (25 minutos de foco, 5 de pausa).<br>
-          Ajuda a manter o foco e evita a fadiga mental.</li>
-        <li><b>Mantenha um caderno de erros</b>:<br>
-          Anote questões erradas e revise periodicamente para não repetir falhas.</li>
-        <li><b>Redação semanal é obrigatória</b>:<br>
-          Pratique e peça feedback, simulando o ambiente da prova.</li>
-        <li><b>Simulados aos sábados</b>:<br>
-          Siga o modelo da prova (95 questões + redação) para medir avanço e ajustar o cronograma.</li>
-        <li><b>Priorize saúde mental</b>:<br>
-          Durma bem, alimente-se e faça pausas! O equilíbrio é essencial.</li>
-        <li><b>Revise com flashcards</b> aos domingos:<br>
-          Ajuda na fixação de detalhes e conceitos importantes.</li>
-        <li><b>Releia as anotações</b> e foque nos pontos fracos ao longo da semana.</li>
-      </ul>
-    </aside>
+
+  <table id="cronograma-table">
+    <thead>
+      <tr>
+        <th>Dia</th>
+        <th>Manhã (6h às 9h)</th>
+        <th>Tarde (13h30 às 17h)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr data-dia="Segunda">
+        <td>Segunda</td>
+        <td>Português + Específicas</td>
+        <td>Lógica + Redação</td>
+      </tr>
+      <tr data-dia="Terça">
+        <td>Terça</td>
+        <td>Específicas + Ética/Admin</td>
+        <td>Português + Lógica</td>
+      </tr>
+      <tr data-dia="Quarta">
+        <td>Quarta</td>
+        <td>Português + Direito Constitucional</td>
+        <td>Específicas + Revisão Rápida</td>
+      </tr>
+      <tr data-dia="Quinta">
+        <td>Quinta</td>
+        <td>Lógica + Questões Temáticas</td>
+        <td>Específicas (Com. Pública) + Redação Técnica</td>
+      </tr>
+      <tr data-dia="Sexta">
+        <td>Sexta</td>
+        <td>Específicas + Redação (planejamento)</td>
+        <td>Português + Questões Mistas</td>
+      </tr>
+      <tr data-dia="Sábado">
+        <td>Sábado</td>
+        <td colspan="2">📝 Simulado Completo + Correção</td>
+      </tr>
+      <tr data-dia="Domingo">
+        <td>Domingo</td>
+        <td colspan="2">🧠 Revisão com Flashcards + Redação (opcional)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="obs">
+    <strong>💡 Dicas estratégicas para a Espartana:</strong><br>
+    • Use a técnica Pomodoro (25min foco / 5min pausa).<br>
+    • Caderno de erros por disciplina = seu melhor amigo.<br>
+    • Redação semanal é obrigatória: treine temas objetivos e atuais.<br>
+    • Simulado aos sábados deve replicar a prova oficial: 95 questões + redação.<br>
+    • Use os domingos para revisar, respirar e ajustar o foco.
   </div>
+
   <script>
-    // Modo escuro
-    const toggleBtn = document.getElementById('toggleDark');
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    // Carrega preferência do usuário ou sistema
-    function setThemeFromStorageOrSystem() {
-      const saved = localStorage.getItem('dark_mode');
-      if(saved === '1' || (saved === null && prefersDark)) {
-        document.body.classList.add('dark-mode');
-        toggleBtn.innerHTML = "☀️";
-        toggleBtn.setAttribute('aria-label', 'Modo claro');
+    // Botão modo claro/escuro
+    const btn = document.getElementById('theme-toggle');
+    const body = document.body;
+    function setTheme(isDark) {
+      if (isDark) {
+        body.classList.add('dark-mode');
+        btn.classList.add('dark');
+        btn.innerHTML = '☀️';
       } else {
-        document.body.classList.remove('dark-mode');
-        toggleBtn.innerHTML = "🌙";
-        toggleBtn.setAttribute('aria-label', 'Modo escuro');
+        body.classList.remove('dark-mode');
+        btn.classList.remove('dark');
+        btn.innerHTML = '🌙';
+      }
+      localStorage.setItem('darkMode', isDark ? '1' : '0');
+    }
+    const prevPref = localStorage.getItem('darkMode');
+    setTheme(prevPref === '1');
+    btn.addEventListener('click', () => {
+      const isDark = !body.classList.contains('dark-mode');
+      setTheme(isDark);
+    });
+
+    // Destacar o dia atual
+    function destaqueHoje() {
+      const diasSemana = [
+        'Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'
+      ];
+      const hoje = new Date();
+      const diaAtual = diasSemana[hoje.getDay()];
+      // Remove destaque anterior
+      document.querySelectorAll('#cronograma-table tbody tr').forEach(tr => {
+        tr.classList.remove('today-row');
+      });
+      // Adiciona destaque ao dia atual se existir na tabela
+      const trHoje = document.querySelector(`#cronograma-table tbody tr[data-dia="${diaAtual}"]`);
+      if (trHoje) {
+        trHoje.classList.add('today-row');
       }
     }
-    setThemeFromStorageOrSystem();
-
-    toggleBtn.onclick = function() {
-      document.body.classList.toggle('dark-mode');
-      const isDark = document.body.classList.contains('dark-mode');
-      localStorage.setItem('dark_mode', isDark ? '1' : '0');
-      toggleBtn.innerHTML = isDark ? "☀️" : "🌙";
-      toggleBtn.setAttribute('aria-label', isDark ? "Modo claro" : "Modo escuro");
-    };
-
-    // Dias usados para destacar automático
-    const diasSemana = [
-      "Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"
-    ];
-    function highlightToday() {
-      const today = new Date();
-      const dia = diasSemana[today.getDay()];
-      const rows = document.querySelectorAll('#study-table tbody tr');
-      rows.forEach(row => {
-        if(row.children[0].innerText === dia) {
-          row.classList.add('today');
-        }
-      });
-    }
-    highlightToday();
-
-    // Tornar células interativas
-    function makeCellsInteractive() {
-      const cells = document.querySelectorAll('td[data-id]');
-      cells.forEach(cell => {
-        const id = cell.getAttribute('data-id');
-        // Cria checkbox de "feito"
-        const label = document.createElement('label');
-        label.className = 'done-label';
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.checked = localStorage.getItem(`study_done_${id}`) === '1';
-        checkbox.addEventListener('change', () => {
-          localStorage.setItem(`study_done_${id}`, checkbox.checked ? '1' : '0');
-        });
-        label.appendChild(checkbox);
-        label.appendChild(document.createTextNode('Feito'));
-        cell.appendChild(document.createElement('br'));
-        cell.appendChild(label);
-
-        // Botão de anotação
-        const noteBtn = document.createElement('button');
-        noteBtn.className = 'note-btn';
-        noteBtn.innerText = 'Anotar';
-        cell.appendChild(noteBtn);
-
-        // Popup anotação
-        const notePopup = document.createElement('div');
-        notePopup.className = 'note-popup';
-
-        const textarea = document.createElement('textarea');
-        textarea.value = localStorage.getItem(`study_note_${id}`) || '';
-        notePopup.appendChild(textarea);
-
-        const saveBtn = document.createElement('button');
-        saveBtn.innerText = 'Salvar';
-        saveBtn.onclick = () => {
-          localStorage.setItem(`study_note_${id}`, textarea.value.trim());
-          notePopup.style.display = 'none';
-          cell.classList.toggle('has-note', textarea.value.trim().length > 0);
-        };
-        notePopup.appendChild(saveBtn);
-
-        noteBtn.onclick = (e) => {
-          e.stopPropagation();
-          notePopup.style.display = notePopup.style.display === 'block' ? 'none' : 'block';
-          textarea.focus();
-        };
-
-        cell.appendChild(notePopup);
-
-        // Destacar se tem anotação
-        if(textarea.value.trim().length > 0) {
-          cell.classList.add('has-note');
-        }
-
-        // Fecha popup ao clicar fora
-        document.addEventListener('click', function(event) {
-          if (!notePopup.contains(event.target) && event.target !== noteBtn) {
-            notePopup.style.display = 'none';
-          }
-        });
-      });
-    }
-    makeCellsInteractive();
+    destaqueHoje();
+    // Atualiza destaque se a página ficar aberta e mudar de dia (a cada hora, por segurança)
+    setInterval(destaqueHoje, 60 * 60 * 1000);
   </script>
+
 </body>
 </html>
